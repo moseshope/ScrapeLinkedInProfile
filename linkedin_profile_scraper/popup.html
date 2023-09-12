@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Convertlead linkedin profile scraper</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    </link>
+    <script type="text/javascript" src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+    <!-- <script src="js/jquery.dataTables.min.js"></script> -->
+    <script type="text/javascript" src="scripts/popup.js"></script>
+    <style>
+        body {
+            width: 350px;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        #result {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row p-4">
+            <div class="col-xs-12 col-12">
+                <img src="./imgs/icon_16.png" class="mx-auto d-block" width="70" />
+            </div>
+            <div class="mt-4 login-form">
+                <div class="mt-4 mb-3">
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="password" placeholder="Password" />
+                </div>
+                <span id="status"></span>
+                <button class="btn btn-primary w-100" id="login">Login</button>
+            </div>
+            <div id="result">
+                <h5>People found: <span id="found_num">0</span></h5>
+                <button class="btn btn-primary w-100" id="send">Start Scrapping</button>
+                <!-- <button class="btn mt-1 btn-primary w-100" id="clear">Clear Data</button> -->
+                <div class="col-xs-12 col-12 text-justify mt-3">
+                    <span>All the lead data will be sent to your 
+                        convertlead linkedin search dashboard.
+                        
+                        Every search you do will reset the data 
+                        in your linkedin search results.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

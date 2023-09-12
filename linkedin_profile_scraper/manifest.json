@@ -1,0 +1,47 @@
+{
+    "name": "Convertlead Linkedin profiel scraper",
+    "description": "Scrape linkedin profile such as first name, last name, company name and website link, description, followers, latest post date",
+    "version": "1.0",
+    "manifest_version": 3,
+    "icons": {
+        "16": "/imgs/icon_16.png",
+        "32": "/imgs/icon_32.png",
+        "48": "/imgs/icon_64.png",
+        "128": "/imgs/icon_128.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": {
+            "16": "/imgs/icon_16.png",
+            "32": "/imgs/icon_32.png",
+            "48": "/imgs/icon_64.png",
+            "128": "/imgs/icon_128.png"
+        },
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.linkedin.com/*",
+                "*://localhost/*"
+            ],
+            "js": [
+                "./scripts/jquery.min.js"
+            ],
+            "runAt": "document_start"
+        }
+    ],
+    "permissions": [
+        "declarativeContent",
+        "storage",
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://*.linkedin.com/*"
+    ]
+    
+}
