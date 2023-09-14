@@ -8,10 +8,14 @@ var scrapeProfileData = [];
 
 
 
-$(document).ready(function () {
+$(document).ready(async function () {
 
-
-    if (window.localStorage.getItem("email") && window.localStorage.getItem("password")) {
+    console.log("document");
+    let token = "";
+    await chrome.storage.local.get(["token"]).then(function(result) {
+        token = result.token
+      });
+    if (token) {
         $(".login-form").hide();
         $("#result").show();
         chrome.runtime.sendMessage({ text: "get-result" }, function (response) {
@@ -40,9 +44,13 @@ $(document).ready(function () {
                     $(".login-form").hide();
                     $("#result").show();
                     console.log(res);
-                    window.localStorage.setItem("email", email);
-                    window.localStorage.setItem("password", password);
-                    window.localStorage.setItem("token", res.access_token);
+                    chrome.storage.local.set({ email: email});
+                    chrome.storage.local.set({ password: password});
+                    chrome.storage.local.set({ token: res.access_token});
+                    
+                    // window.localStorage.setItem("email", email);
+                    // window.localStorage.setItem("password", password);
+                    // window.localStorage.setItem("token", res.access_token);
                     //chrome.storage.sync.clear();
 
                 })
@@ -88,65 +96,40 @@ $(document).ready(function () {
         const tabs = await chrome.tabs.query(queryInfo);
         const url = tabs[0].url;
         chrome.runtime.sendMessage({ text: "start-scrapping", url: url });
+        console.log("================popup-start-scrapping-------------------");
     }
+
+    function logStorageChange(changes, area) {
+        console.log(`Change in storage area: ${area}`);
+      
+        const changedItems = Object.keys(changes);
+      
+        for (const item of changedItems) {
+          console.log(`${item} has changed:`);
+          console.log("Old value: ", changes[item].oldValue);
+          console.log("New value: ", changes[item].newValue);
+        }
+      }
+      
+      browser.storage.onChanged.addListener(logStorageChange);
 
 
 });
 
-function sendDataToBackend(data) {
-    // Get the token either from a variable or from local storage, depending on your implementation
-    const token = window.localStorage.getItem("token");
-  
-    // Define the API endpoint
-    const url = "https://api.convertlead.com/api/v1/linkedin";
-    //let url = "https://webhook-test.com/37be147e461a46ae2cc1fb646e4c4048";
-    // Construct the request headers with the token
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    };
-  
-    // Create the fetch request with the appropriate headers and method
-    fetch(url, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify(data)
-    })
-    .then(response => {
-      // Handle the response from the backend
-      if (response.ok) {
-        // Request was successful
-        console.error("Data sent");
-        return response.json();
 
-      } else {
-        // Request failed
-        console.error("Error sending data to backend");
-        throw new Error('Error sending data to backend');
-
-      }
-    })
-    .then(data => {
-      // Handle the data returned from the backend
-      console.log(data);
-    })
-    .catch(error => {
-      // Handle any errors that occurred during the fetch request
-      console.error(error);
-    });
-  }
 
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     if (msg.text == 'end-scrapping') {
-        scrapeProfileData = msg.scrapeProfileData;
-        if (scrapeProfileData.length > 0) {
-            let email = window.localStorage.getItem("email");
-            let data = scrapeProfileData;
-            sendDataToBackend(data);
-        }
+        // console.log("================popup-end-scrapping-------------------", msg);
+        // scrapeProfileData = msg.scrapeProfileData;
+        // if (scrapeProfileData.length > 0) {
+        //     console.log("================popup-end-scrapping-111------------------");
+        //     let data = scrapeProfileData;
+        //     sendDataToBackend(data);
+        // }
         $("#found_num").text(scrapeProfileData.length);
         $("#send").html("Start Scrapping");
         $("#send").prop("disabled", false);
-        sendResponse("true");
     }
 });
+

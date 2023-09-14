@@ -162,22 +162,69 @@ function scrapeProfile() {
     });
 }
 
+async function sendDataToBackend(data) {
+    // Get the token either from a variable or from local storage, depending on your implementation
+    let token = "";
+    console.log("========", token, "====");
+    await chrome.storage.local.get(["token"]).then(function(result) {
+        console.log(result.token);
+        token = result.token;
+      });
+    console.log(token);
+    // Define the API endpoint
+    const url = "https://api.convertlead.com/api/v1/linkedin";
+    //let url = "https://webhook-test.com/37be147e461a46ae2cc1fb646e4c4048";
+    // Construct the request headers with the token
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+  
+    console.log(data);
+    // Create the fetch request with the appropriate headers and method
+    fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      // Handle the response from the backend
+      if (response.ok) {
+        // Request was successful
+        console.log("Data sent");
+        return response.json();
+
+      } else {
+        // Request failed
+        throw new Error('Error sending data to backend', response);
+
+      }
+    })
+    .then(data => {
+      // Handle the data returned from the backend
+      console.log(data);
+    })
+    .catch(error => {
+      // Handle any errors that occurred during the fetch request
+      console.error(error);
+    });
+  }
+
 function draftProfiles(list) {
     scrapeProfileData = list;
     flag = false;
-    chrome.runtime.sendMessage({ text: "end-scrapping", scrapeProfileData: scrapeProfileData }, function (response) {
-    });
-
-    /**
-    chrome.storage.sync.get(['linkedin_profiles'], function(result) {
-        if (result.linkedin_profiles != undefined) {
-            var profiles = JSON.parse(result.linkedin_profiles);
-            profiles = profiles.concat(list);
-            chrome.storage.sync.set({ linkedin_profiles: JSON.stringify(profiles) });
-        } else {
-            chrome.storage.sync.set({ linkedin_profiles: JSON.stringify(list) });
-        }
-        return false;        
-    });
-     */
+    console.log("==================draftProfiles=====================", list);
+    //sendDataToBackend(scrapeProfileData);
+    chrome.runtime.sendMessage({ text: "end-scrapping", scrapeProfileData: scrapeProfileData });
+    
+    // chrome.storage.sync.get(['linkedin_profiles'], function(result) {
+    //     if (result.linkedin_profiles != undefined) {
+    //         var profiles = JSON.parse(result.linkedin_profiles);
+    //         profiles = profiles.concat(list);
+    //         chrome.storage.sync.set({ linkedin_profiles: JSON.stringify(profiles) });
+    //     } else {
+    //         chrome.storage.sync.set({ linkedin_profiles: JSON.stringify(list) });
+    //     }
+    //     return false;        
+    // });
 }

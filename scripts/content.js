@@ -297,7 +297,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
                         document.querySelector("ul.sort-dropdown__list").querySelector("li.sort-dropdown__list-item:nth-child(2)").querySelector("button").click();
 
-                        sortTrigger = setInterval(sortPost, 1000);
+                        sortTrigger = setInterval(sortPost, 2000);
                     }
                 }
                 var sortPost = function () {
