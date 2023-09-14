@@ -302,13 +302,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                 }
                 var sortPost = function () {
                     console.log("7", Date.now());
-                    let postedDate = "";
+                    let postedDate = 0;
                     let follower = 0;
                     if (document.querySelector(".update-components-text-view") &&
                         document.querySelector(".update-components-text-view").querySelector("span.visually-hidden")) {
                         postedDate = (document.querySelector(".update-components-text-view")
                             .querySelector("span.visually-hidden").innerText).split(" ")[0];
-                        console.log("8", postedDate);
+                        //console.log("8", postDateToDays(postedDate));
+
                     }
 
                     if (document.querySelector(".org-top-card-summary-info-list") &&
@@ -318,7 +319,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                         console.log("====companyFollower====", follower);
                     }
                     clearInterval(sortTrigger);
-                    sendResponse({ date: postedDate, follower: follower });
+                    sendResponse({ date: postDateToDays(postedDate), follower: follower });
                 }
                 
                 let checkCount = 0;
@@ -378,4 +379,24 @@ function getCompanys(link) {
             reject(error)
         });
     })
+}
+
+function postDateToDays(postedDate){
+    let days = 1;
+    if(postedDate) {
+        let dateNum = parseInt(postedDate);
+        if(postedDate.includes("yr")){
+            days = dateNum * 365;
+        } else if (postedDate.includes("mo")) {
+            days = dateNum * 30;
+        } else if (postedDate.includes("w")) {
+            days = dateNum * 7;
+        } else if (postedDate.includes("d")) {
+            days = dateNum;
+        } else {
+        }
+        return days;
+    }
+    return 0;
+
 }

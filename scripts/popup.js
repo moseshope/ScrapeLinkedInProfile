@@ -111,7 +111,7 @@ $(document).ready(async function () {
         }
       }
       
-      browser.storage.onChanged.addListener(logStorageChange);
+      //browser.storage.onChanged.addListener(logStorageChange);
 
 
 });
