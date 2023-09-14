@@ -49,7 +49,6 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
                                 chrome.scripting.executeScript({ target: { tabId: companyTab.id, allFrames: false }, files: ['scripts/content.js'], }).then(() => {
                                     chrome.tabs.sendMessage(companyTab.id, { text: 'getCompanyLink' }).then((data) => {
                                         sendResponse({ ...data, tabId });
-                                        // chrome.tabs.remove(companyTab.id);
                                     });
                                 });
                             }
@@ -69,19 +68,6 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
             console.log("postTab", postTab);
             chrome.tabs.onUpdated.addListener(function (tabId, info) {
                 if (info.status === 'complete' && tabId == postTab.id) {
-                    // setTimeout(() => {
-                    //     chrome.tabs.get(parseInt(postTab.id)).then((tab) => {
-                    //         console.log("tab::::", tab);
-                    //         if(tab) {
-                    //             chrome.scripting.executeScript({ target: { tabId: postTab.id, allFrames: false }, files: ['scripts/jquery.min.js', 'scripts/content.js'], }).then(() => {
-                    //                 chrome.tabs.sendMessage(postTab.id, { text: "lastPostDate" }).then((data) => {
-                    //                     chrome.tabs.remove(postTab.id);
-                    //                     sendResponse(data);
-                    //                 });
-                    //             })
-                    //         }
-                    //     });
-                    // }, 2000);
 
                     chrome.scripting.executeScript({ target: { tabId: postTab.id, allFrames: false }, files: ['scripts/jquery.min.js', 'scripts/content.js'], }).then(() => {
                         chrome.tabs.sendMessage(postTab.id, { text: "lastPostDate" }).then((data) => {
@@ -113,7 +99,6 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 });
 
 function checkIsLinkedin() {
-    // https://developer.chrome.com/extensions/tabs#method-query
     var queryInfo = { active: true, currentWindow: true };
 
     chrome.tabs.query(queryInfo, function (tabs) {
@@ -135,7 +120,6 @@ function checkIsLinkedin() {
             }
         } else {
             document.getElementById("result").innerHTML = "<div class='h6 text-justify'>You can't run this extension.</div><div class='h6 text-justify'>Please check the website URL.</div>";
-            //$("#result").html("<div class='h6 text-justify'>You can't run this extension.</div><div class='h6 text-justify'>Please check the website URL.</div>");
             return false;
         }
     });
@@ -173,7 +157,6 @@ async function sendDataToBackend(data) {
     console.log(token);
     // Define the API endpoint
     const url = "https://api.convertlead.com/api/v1/linkedin";
-    //let url = "https://webhook-test.com/37be147e461a46ae2cc1fb646e4c4048";
     // Construct the request headers with the token
     const headers = {
       'Content-Type': 'application/json',
@@ -213,18 +196,6 @@ async function sendDataToBackend(data) {
 function draftProfiles(list) {
     scrapeProfileData = list;
     flag = false;
-    console.log("==================draftProfiles=====================", list);
-    //sendDataToBackend(scrapeProfileData);
+    sendDataToBackend(scrapeProfileData);
     chrome.runtime.sendMessage({ text: "end-scrapping", scrapeProfileData: scrapeProfileData });
-    
-    // chrome.storage.sync.get(['linkedin_profiles'], function(result) {
-    //     if (result.linkedin_profiles != undefined) {
-    //         var profiles = JSON.parse(result.linkedin_profiles);
-    //         profiles = profiles.concat(list);
-    //         chrome.storage.sync.set({ linkedin_profiles: JSON.stringify(profiles) });
-    //     } else {
-    //         chrome.storage.sync.set({ linkedin_profiles: JSON.stringify(list) });
-    //     }
-    //     return false;        
-    // });
 }

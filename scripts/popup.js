@@ -120,13 +120,6 @@ $(document).ready(async function () {
 
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     if (msg.text == 'end-scrapping') {
-        // console.log("================popup-end-scrapping-------------------", msg);
-        // scrapeProfileData = msg.scrapeProfileData;
-        // if (scrapeProfileData.length > 0) {
-        //     console.log("================popup-end-scrapping-111------------------");
-        //     let data = scrapeProfileData;
-        //     sendDataToBackend(data);
-        // }
         $("#found_num").text(scrapeProfileData.length);
         $("#send").html("Start Scrapping");
         $("#send").prop("disabled", false);
