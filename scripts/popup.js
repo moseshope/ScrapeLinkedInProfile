@@ -12,10 +12,10 @@ $(document).ready(async function () {
 
     console.log("document");
     let token = "";
-    await chrome.storage.local.get(["token"]).then(function(result) {
+    await chrome.storage.local.get(["token"]).then(function (result) {
         token = result.token
-      });
-    if (token) {
+    });
+    if (!token) {
         $(".login-form").hide();
         $("#result").show();
         chrome.runtime.sendMessage({ text: "get-result" }, function (response) {
@@ -44,10 +44,10 @@ $(document).ready(async function () {
                     $(".login-form").hide();
                     $("#result").show();
                     console.log(res);
-                    chrome.storage.local.set({ email: email});
-                    chrome.storage.local.set({ password: password});
-                    chrome.storage.local.set({ token: res.access_token});
-                    
+                    chrome.storage.local.set({ email: email });
+                    chrome.storage.local.set({ password: password });
+                    chrome.storage.local.set({ token: res.access_token });
+
                     // window.localStorage.setItem("email", email);
                     // window.localStorage.setItem("password", password);
                     // window.localStorage.setItem("token", res.access_token);
@@ -101,17 +101,17 @@ $(document).ready(async function () {
 
     function logStorageChange(changes, area) {
         console.log(`Change in storage area: ${area}`);
-      
+
         const changedItems = Object.keys(changes);
-      
+
         for (const item of changedItems) {
-          console.log(`${item} has changed:`);
-          console.log("Old value: ", changes[item].oldValue);
-          console.log("New value: ", changes[item].newValue);
+            console.log(`${item} has changed:`);
+            console.log("Old value: ", changes[item].oldValue);
+            console.log("New value: ", changes[item].newValue);
         }
-      }
-      
-      //browser.storage.onChanged.addListener(logStorageChange);
+    }
+
+    //browser.storage.onChanged.addListener(logStorageChange);
 
 
 });
