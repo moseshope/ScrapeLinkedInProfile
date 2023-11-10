@@ -3,6 +3,7 @@ var trigger, sortTrigger;
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     (async () => {
         if (msg.text == "get_list") {
+            console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxget-list")
             try {
                 let groupId = Date.now();
                 //console.clear();
@@ -74,7 +75,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                         profile.follower = follower.split(" follower")[0];
                         console.log(profile.follower);
                     }
-                    profile.address = document.querySelector(".JJpKzxvLQzUcDanWpUHzlRrOqPnfOIiv.mt2").querySelector("span.text-body-small.inline.t-black--light.break-words").innerText;
+                    //profile.address = document.querySelector(".JJpKzxvLQzUcDanWpUHzlRrOqPnfOIiv.mt2").querySelector("span.text-body-small.inline.t-black--light.break-words").innerText;
+                    profile.address = document.querySelector(".mt2.relative > div > span.text-body-small.inline.t-black--light.break-words")?.innerText;
                     console.log(profile.address);
                     if (document.querySelector("#about")) {
                         profile.about = document.querySelector("#about").closest("section").querySelector(".pv-shared-text-with-see-more.full-width.t-14.t-normal.t-black.display-flex.align-items-center").querySelector("span").innerText;
@@ -123,19 +125,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                     if (
                         document.querySelector("#experience") &&
                         document.querySelector("#experience").closest("section") &&
-                        document.querySelector("#experience").closest("section").querySelectorAll("MPiSuFDpPewszVTZrLKslsuoZUXp.JXlAturckwvbXTqFGPCPXqpsmHkmAiXBEYfTU.IFyYtsDHFjAqplruXeJGLmUAvMPuFASS")
+                        document.querySelector("#experience").closest("section").querySelectorAll("li")
                     ) {
 
-                        let experiences = document.querySelector("#experience").closest("section").querySelectorAll("MPiSuFDpPewszVTZrLKslsuoZUXp.JXlAturckwvbXTqFGPCPXqpsmHkmAiXBEYfTU.IFyYtsDHFjAqplruXeJGLmUAvMPuFASS");
+                        let experiences = document.querySelector("#experience").closest("section").querySelectorAll("li");
                         for (let i = 0; i < experiences.length; i++) {
                             console.log("++++++++2+++++++++++", experiences);
                             let e = experiences[i];
 
-                            companyName = e.querySelector(".display-flex.flex-row.justify-space-between").querySelector(".display-flex.flex-wrap.align-items-center.full-height").querySelector("span").innerText;
+                            companyName = e.querySelector(".display-flex.flex-row.justify-space-between")?.querySelector(".display-flex.flex-wrap.align-items-center.full-height")?.querySelector("span")?.innerText;
 
-                            let companyLink = e.querySelector("a[data-field='experience_company_logo']").getAttribute("href");
+                            let companyLink = e.querySelector("a[data-field='experience_company_logo']")?.getAttribute("href");
                             console.log("+++++4++++++++++++", companyLink);
-                            if (companyLink.indexOf("linkedin.com/company/") > -1) {
+                            if (companyLink && companyLink.indexOf("linkedin.com/company/") > -1) {
                                 /**
                                  * Open company profile page.
                                  */

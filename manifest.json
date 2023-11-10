@@ -31,6 +31,16 @@
                 "./scripts/jquery.min.js"
             ],
             "runAt": "document_start"
+        },
+        {
+            "matches": [
+                "https://www.linkedin.com/*",
+                "*://localhost/*"
+            ],
+            "js": [
+                "./scripts/content.js"
+            ],
+            "runAt": "document_end"
         }
     ],
     "permissions": [
@@ -43,5 +53,4 @@
     "host_permissions": [
         "https://*.linkedin.com/*"
     ]
-    
 }
