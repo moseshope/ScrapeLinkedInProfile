@@ -67,17 +67,21 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                 profile.profileLink = window.location.href;
                 if (msg.loginUser) {
                     profile.name = document.querySelector("h1.break-words").innerText;
+                    console.log(profile.name);
                     if (document.querySelector("#content_collections") && document.querySelector("#content_collections").closest("section")) {
                         let follower = document.querySelector("#content_collections").closest("section").querySelector(".pvs-header__subtitle.pvs-header__optional-link.text-body-small > span").innerText;
                         if (follower.indexOf("K") > -1) follower.replace("K", "000");
                         profile.follower = follower.split(" follower")[0];
+                        console.log(profile.follower);
                     }
-                    profile.address = document.querySelector(".pv-text-details__left-panel.mt2").querySelector("span.text-body-small.inline.t-black--light.break-words").innerText;
+                    profile.address = document.querySelector(".JJpKzxvLQzUcDanWpUHzlRrOqPnfOIiv.mt2").querySelector("span.text-body-small.inline.t-black--light.break-words").innerText;
+                    console.log(profile.address);
                     if (document.querySelector("#about")) {
                         profile.about = document.querySelector("#about").closest("section").querySelector(".pv-shared-text-with-see-more.full-width.t-14.t-normal.t-black.display-flex.align-items-center").querySelector("span").innerText;
+                        console.log(profile.about);
                     }
                     profile.job = document.querySelector(".text-body-medium.break-words").innerText;
-
+                    console.log(profile.job);
                     let contactBtn = document.querySelector("#top-card-text-details-contact-info");
                     if (contactBtn) {
                         contactBtn.click();
@@ -119,10 +123,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                     if (
                         document.querySelector("#experience") &&
                         document.querySelector("#experience").closest("section") &&
-                        document.querySelector("#experience").closest("section").querySelectorAll("li.artdeco-list__item")
+                        document.querySelector("#experience").closest("section").querySelectorAll("MPiSuFDpPewszVTZrLKslsuoZUXp.JXlAturckwvbXTqFGPCPXqpsmHkmAiXBEYfTU.IFyYtsDHFjAqplruXeJGLmUAvMPuFASS")
                     ) {
 
-                        let experiences = document.querySelector("#experience").closest("section").querySelectorAll("li.artdeco-list__item");
+                        let experiences = document.querySelector("#experience").closest("section").querySelectorAll("MPiSuFDpPewszVTZrLKslsuoZUXp.JXlAturckwvbXTqFGPCPXqpsmHkmAiXBEYfTU.IFyYtsDHFjAqplruXeJGLmUAvMPuFASS");
                         for (let i = 0; i < experiences.length; i++) {
                             console.log("++++++++2+++++++++++", experiences);
                             let e = experiences[i];
@@ -140,7 +144,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                                 let data;
                                 if (res.profile) {
                                     try {
-                                         data = await getPostDate(res.profile + "/posts?feedView=all");
+                                        data = await getPostDate(res.profile + "/posts?feedView=all");
                                     } catch (err) {
                                         console.log("--------scrape_profile:getPostDate-------", err);
                                     }
@@ -227,12 +231,12 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
                     clearInterval(sortTrigger);
                     sendResponse({ date: postDateToDays(postedDate), follower: follower });
                 }
-                
+
                 let checkCount = 0;
                 var checkLoaded = function () {
                     checkCount++;
                     if (document.querySelector("ul.sort-dropdown__list") == null) {
-                        if(checkCount > 5) {
+                        if (checkCount > 5) {
                             clearInterval(isLoaded);
                             sendResponse({ date: "", follower: 0 });
                         }
@@ -284,11 +288,11 @@ function getCompanys(link) {
     })
 }
 
-function postDateToDays(postedDate){
+function postDateToDays(postedDate) {
     let days = 1;
-    if(postedDate) {
+    if (postedDate) {
         let dateNum = parseInt(postedDate);
-        if(postedDate.includes("yr")){
+        if (postedDate.includes("yr")) {
             days = dateNum * 365;
         } else if (postedDate.includes("mo")) {
             days = dateNum * 30;
