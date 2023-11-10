@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Convertlead linkedin profile scraper</title>
+    <title>Prospectr by COnvertlead</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     </link>
     <script type="text/javascript" src="scripts/jquery.min.js"></script>
@@ -21,15 +21,25 @@
         }
 
     </style>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet"> 
+
+
 </head>
 
 <body>
     <div class="container-fluid">
         <div class="row p-4">
-            <div class="col-xs-12 col-12">
+            <div class="col-xs-12 col-12 logo-box">
                 <img src="./imgs/icon_16.png" class="mx-auto d-block" width="70" />
             </div>
             <div class="mt-4 login-form">
+                <p class="login-text"> Sign into your convertlead account
+
+                    </p>
                 <div class="mt-4 mb-3">
                     <input type="email" class="form-control" id="email" placeholder="Email">
                 </div>
@@ -38,20 +48,18 @@
                 </div>
                 <span id="status"></span>
                 <button class="btn btn-primary w-100" id="login">Login</button>
+                <a href="https://app.convertlead.com/password-reset" class="forgot-pass" target="_blank">Forgot password</a>
             </div>
             <div id="result">
                 <h5>People found: <span id="found_num">0</span></h5>
                 <button class="btn btn-primary w-100" id="send">Start Scrapping</button>
                 <!-- <button class="btn mt-1 btn-primary w-100" id="clear">Clear Data</button> -->
                 <div class="col-xs-12 col-12 text-justify mt-3">
-                    <span>All the lead data will be sent to your 
-                        convertlead linkedin search dashboard.
-                        
-                        Every search you do will reset the data 
-                        in your linkedin search results.
-                    </span>
+                    <span class="footer-note">All the results will be automatically sent to your convertlead linkedin dashboard at the end of the process. </span>
                 </div>
             </div>
+
+            <div class="footer"><a href="http://support.convertlead.com">Support</a><a href="https://app.convertlead.com">Convertlead App</a></div>
         </div>
     </div>
 </body>

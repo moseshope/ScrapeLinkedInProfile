@@ -1,6 +1,6 @@
 {
-    "name": "Convertlead Linkedin profiel scraper",
-    "description": "Scrape linkedin profile such as first name, last name, company name and website link, description, followers, latest post date",
+    "name": "Prospectr by Convertlead",
+    "description": "Turn linkedin profiles into hot & 100% verified e-mail leads.",
     "version": "1.0",
     "manifest_version": 3,
     "icons": {
